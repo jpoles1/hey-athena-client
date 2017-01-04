@@ -31,6 +31,7 @@ def init():
     p = pyaudio.PyAudio()
 
     sphinx_speech = SpeechDetector(decoder)
+    threshold = sphinx_speech.setup_mic()
     # r.recognize_google(settings.LANG_4CODE)
 
 
@@ -65,26 +66,5 @@ def active_listen():
         p.get_default_input_device_info()
         tts.play_mp3("double-beep.mp3")
     log.info("Listening for command... ")
-    decoder.start_utt()
-    oldstr = ""
-    i = 0;
-    while i<10:
-        buf = stream.read(1024)
-        decoder.process_raw(buf, False, False)
-        if decoder.hyp():
-            curstr = decoder.hyp().hypstr;
-            print("Heard (i=", i, "): ", curstr)
-            if not buf:
-                break
-            if curstr == oldstr:
-                i+=1;
-            else:
-                i=0
-            oldstr = curstr
-            i+=1;
-    decoder.end_utt()
-    words = []
-    [words.append(seg.word) for seg in decoder.seg()]
-    print(words)
-    print(oldstr)
+    sphinx_speech.run()
     return
