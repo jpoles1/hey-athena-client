@@ -20,14 +20,17 @@ def init():
     config.set_string('-logfn', settings.POCKETSPHINX_LOG)
     config.set_string('-hmm',   settings.ACOUSTIC_MODEL)
     config.set_string('-lm',    settings.LANGUAGE_MODEL)
-    #config.set_string('-dict',  settings.POCKET_DICT)
     config.set_string('-dict',  settings.POCKET_DICT)
     # Decode streaming data
     global wake_decoder, decoder, p, threshold, sphinx_speech
-    decoder = Decoder(config)
     wake_decoder = Decoder(config)
     wake_decoder.set_keyphrase('wakeup', settings.WAKE_UP_WORD)
     wake_decoder.set_search('wakeup')
+
+    #config.set_string('-lm',    "1444.lm")
+    #config.set_string('-dict',  "1444.dic")
+
+    decoder = Decoder(config)
     p = pyaudio.PyAudio()
 
     sphinx_speech = SpeechDetector(decoder)
@@ -66,5 +69,4 @@ def active_listen():
         p.get_default_input_device_info()
         tts.play_mp3("double-beep.mp3")
     log.info("Listening for command... ")
-    sphinx_speech.run()
-    return
+    return sphinx_speech.run()

@@ -95,7 +95,8 @@ class SpeechDetector:
         self.decoder.end_utt()
         words = []
         [words.append(seg.word) for seg in self.decoder.seg()]
-        return words
+        print("Decoded: ", words)
+        return self.decoder.hyp().hypstr
 
     def run(self, loops=5):
         """
@@ -137,7 +138,7 @@ class SpeechDetector:
                 print("DETECTED: ", r)
 
                 # Removes temp audio file
-                #os.remove(filename)
+                os.remove(filename)
                 # Reset all
                 started = False
                 slid_win = deque(maxlen=self.SILENCE_LIMIT * rel)
@@ -152,7 +153,7 @@ class SpeechDetector:
         print("* Done listening")
         stream.close()
         p.terminate()
-
+        return r
 if __name__ == "__main__":
     sd = SpeechDetector()
     sd.run()
