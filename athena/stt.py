@@ -49,13 +49,17 @@ def listen_keyword():
 
     log.info("Waiting to be woken up... ")
     wake_decoder.start_utt()
+    i = 0;
     while True:
         buf = stream.read(1024)
         wake_decoder.process_raw(buf, False, False)
         if wake_decoder.hyp() and wake_decoder.hyp().hypstr == settings.WAKE_UP_WORD:
             wake_decoder.end_utt()
             break
-
+        i+=1;
+        if i%600 == 0:
+            sphinx_speech.setup_mic()
+            log.info("Recalibrated. Waiting to be woken up... ")
 def active_listen():
     """
     Actively listens for speech to translate into text

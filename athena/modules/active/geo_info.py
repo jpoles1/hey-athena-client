@@ -14,7 +14,7 @@ from athena.api_library import geo_info_api
 class GetIPInfoTask(ActiveTask):
 
     def __init__(self):
-        match_words = ['ip', 'country', 'region', 'city', 'latitude',
+        match_words = ['ip', 'country', 'region', 'city', 'latitude', 'zip code',
                        'longitude', 'isp', 'internet service provider',
                        'timezone', 'time', 'where am I', 'where are we',
                        'location']

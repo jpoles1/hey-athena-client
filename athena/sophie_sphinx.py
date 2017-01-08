@@ -59,8 +59,7 @@ class SpeechDetector:
                   for x in range(num_samples)]
         values = sorted(values, reverse=True)
         r = sum(values[:int(num_samples * 0.2)]) / int(num_samples * 0.2)
-        print(" Finished ")
-        print(" Average audio intensity is ", r)
+        print(" Finished. Average audio intensity is:", r)
         stream.close()
         p.terminate()
 
