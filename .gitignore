@@ -6,6 +6,8 @@
 .project
 .settings
 .DS_Store
+.idea
+.pypirc
 
 !.travis.yml
 

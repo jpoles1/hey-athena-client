@@ -1,9 +1,9 @@
 """
-
 Global settings are stored here
-
 """
 
+import logging
+import sys
 import speech_recognition as sr
 
 from os import mkdir, path
@@ -15,7 +15,7 @@ from athena.modules import active as active_mods
 
 # Wake-up Word(s) must be in the sphinx dict file (or else RuntimeError occurs)
 # Change to 'hey athena' if background noise triggering occurs
-WAKE_UP_WORD = "athena"
+WAKE_UP_WORD = "attention athena"
 
 # Try active listening until no input is received (useful for conversation)
 FREQUENT_ACTIVE_LISTEN = True
@@ -49,20 +49,24 @@ INPUTS_DIR =    path.join(MEDIA_DIR,  'example_inputs')
 RESPONSES_DIR = path.join(MEDIA_DIR,  'responses')
 USERS_DIR =     path.join(DATA_DIR,   'users')
 
+LOG_NAME = 'athena'
+LOG_FILE = path.join(LOGS_DIR, LOG_NAME+'.log')
+LOG_LEVEL = logging.DEBUG
 
-CHROME_DRIVER = path.join(CLIENT_DIR, 'chrome', 'mac32', 'chromedriver')
+
+CHROME_DRIVER = path.join(CLIENT_DIR, 'chrome', 'win32', 'chromedriver.exe')
 if _platform.startswith("linux"):
     CHROME_DRIVER = path.join(CLIENT_DIR, 'chrome', 'linux32', 'chromedriver')
-elif _platform.startswith("win"):
-    CHROME_DRIVER = path.join(CLIENT_DIR, 'chrome', 'win32', 'chromedriver.exe')
+elif _platform == "darwin":
+    CHROME_DRIVER = path.join(CLIENT_DIR, 'chrome', 'mac64', 'chromedriver')
 
 
 API_DIRS = [
-    # Add your custom api directory strings here (e.g. - "C:/myapis")
+    # Add your custom api directory strings here (e.g. - "C:/my_custom_api_dir")
 ]
 API_DIRS.extend(api_library.__path__)
 MOD_DIRS = [
-
+    # Add your custom api directory strings here (e.g. - "C:/my_custom_mod_dir")
 ]
 MOD_DIRS.extend(active_mods.__path__)
 
@@ -96,9 +100,6 @@ NO_MIC =     "I couldn't connect to a microphone."
 WOLFRAM_KEY =      '4QR84U-VY7T7AVA34'
 WUNDERGROUND_KEY = 'd647ca403a0ac94b'
 IFTTT_KEY =        ''
-
-FB_USER = ''
-FB_PASS = ''
 
 CONTACTS = {}
 
